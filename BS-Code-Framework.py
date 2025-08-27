@@ -13,6 +13,9 @@ from scipy.stats import norm
 r = 0.05
 sigma = 0.25
 T = 1
+
+# FUNCTIONS FOR EUROPEAN PUTS AND CALLS    
+
 def EPut(X, S0, sigma, T, r): 
     d1 = (1/(sigma*np.sqrt(T)))*(np.log(S0/X) + (r + sigma**2/2)*T)
     d2 = d1 - sigma*np.sqrt(T)
@@ -33,26 +36,10 @@ def ECall(X, S0, sigma, T, r):
     delta = norm.cdf(d1)
     return(np.array([c,delta,gamma]))
 
-X = 100
-S0 = 100
-sigma = 0.3
-T = 1
-r = 0.05
 
-print("European Call Value = ", ECall(X,S0, sigma, T, r)[0])
-print("European Call Delta = ", ECall(X,S0, sigma, T, r)[1])
-print("European Call Gamma = ", ECall(X,S0, sigma, T, r)[2])
-
-print("European PUT Value = ", EPut(X,S0, sigma, T, r)[0])
-print("European PUT Delta = ", EPut(X,S0, sigma, T, r)[1])
-print("European PUT Gamma = ", EPut(X,S0, sigma, T, r)[2])
-vols = np.linspace(0,0.9,100)
-plt.plot(vols, EPut(X,S0, vols, T, r)[0])
-#%%
 """
-#####
-# Plots
-#####
+Plot of option price dynamics
+"""
 
 #Strikes vs C
 strikes = np.arange(55,200, 0.1)
@@ -102,9 +89,9 @@ plt.xlabel("Time to Maturity (T)")
 plt.title("Time to Maturity Vs Option Price (European Call) with X=100")     
 plt.show()
 
-###GREEKS###
-#plot numerical estimates vs analytical greeks 
-
+"""
+GREEKS
+"""
 ##DELTA##
 
 #T vs Delta
@@ -177,14 +164,9 @@ plt.xlabel(" Strike Price (X)")
 plt.title("Strike Price Vs Gamma (European Call)")     
 plt.show() 
 
-"""
-
-###
-#ZERO COST COLLAR
-###
 
 """
-Zero-cost Collar Code
+Zero-cost Collar Code and Plots
 """
 
 
@@ -218,7 +200,6 @@ plt.show()
 
 
 # Xp>Xc
-
 Xc = 80
 Xp = 120
 s0 = 100
@@ -256,7 +237,6 @@ for j in range(0,len(Xp)):
     profit = [spots[i] + payout[i] - s0 for i in range(0, len(spots))]
     
     plt.plot(spots,payout)
-    #plt.plot(spots, profit)
 
 plt.title("Spot Price Vs Payoff of Strategy Xp < Xc")    
 plt.ylabel("Payout (Profit)")
@@ -326,7 +306,7 @@ plt.grid(True)
 plt.legend()
 plt.show()
     
-    
+#Showing the cost of the options vs spot prices   
 spots = np.arange(50, 150, 1)
 X = [70,80,100,120]
 for x in X:
@@ -341,6 +321,7 @@ plt.title("Spot Prices vs Option Prices (C-P) for a Collar")
 plt.grid(True)
 plt.legend()
 plt.show()
+
 
 
 
